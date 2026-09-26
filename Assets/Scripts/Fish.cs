@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.InputSystem;
 
 public class Fish : MonoBehaviour
 {
@@ -30,6 +31,10 @@ public class Fish : MonoBehaviour
     [SerializeField] protected float wallCheckDistance = 1f;
     [SerializeField] protected float foodSenseRadius = 5f;
 
+    private bool isDead = false;
+
+    public bool IsDead { get => isDead; set => isDead = value; }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -45,6 +50,7 @@ public class Fish : MonoBehaviour
         if (health <= minHealth)
         {
             Die();
+            return;
         }
         if (hunger < maxHunger -10)
         {
@@ -55,7 +61,7 @@ public class Fish : MonoBehaviour
         {
             health--;
         }
-        else if (hunger > maxHunger / 2)
+        else if (happiness > maxHappiness / 2)
         {
             //give coins!
         }
@@ -66,7 +72,6 @@ public class Fish : MonoBehaviour
         GameObject best = null;
         float bestDist = foodSenseRadius;
 
-        print(Water.inside.ToString());
         foreach (GameObject c in Water.inside)
         {
             if (c.layer != 6) continue;
@@ -136,6 +141,11 @@ public class Fish : MonoBehaviour
 
             while (t < swimTime)
             {
+                if (IsDead)
+                {
+                    StopCoroutine(Swim());
+                    yield break;
+                }
                 waitFor = (target == null) ? Random.Range(0, 5.0f) : 0;
                 Quaternion targetRotation = PickRotation();
                 float multiplyFactor = (target == null) ? 2 : 1;
@@ -176,17 +186,93 @@ public class Fish : MonoBehaviour
 
     protected void Eat()
     {
-        hunger += 5;
-        if (hunger > maxHunger)
-        {
-            hunger = maxHunger;
-        }
+        IncreaseHappiness(2);
+        IncreaseHunger(5);
+        
         Destroy(target);
         target = null;
     }
 
+    protected IEnumerator DieAnimation()
+    {
+        Quaternion upsideDown = Quaternion.Euler(0f, transform.eulerAngles.y, 180f);
+
+        while (true)
+        {
+            float distToSurface = maxY - rb.position.y;
+
+            // float up slowly, ease out near the surface
+            float riseSpeed = Mathf.Clamp(distToSurface * 0.5f, 0.05f, 0.3f);
+            Vector3 v = rb.linearVelocity;
+            v.y = riseSpeed;
+            rb.linearVelocity = v;
+
+            // smoothly roll belly-up while rising
+            rb.MoveRotation(Quaternion.Slerp(
+                rb.rotation, upsideDown, Time.deltaTime * 2f));
+
+            // gentle horizontal drift damping — dead fish doesn't steer
+            v = rb.linearVelocity;
+            v.x *= 0.98f; v.z *= 0.98f;
+            rb.linearVelocity = v;
+
+            if (distToSurface < 0.05f)
+            {
+                // arrived at surface: stop everything, lock the state
+                rb.linearVelocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+                rb.freezeRotation = true;      // nothing can knock it around anymore
+                yield break;
+            }
+            yield return new WaitForFixedUpdate();
+        }
+    }
+
     protected void Die()
     {
-        Destroy(this);
+        IsDead = true;
+        animation.Stop();
+        StartCoroutine(DieAnimation());
+    }
+
+    void OnDestroy()
+    {
+        Water.inside.Remove(this.gameObject);
+    }
+
+    protected void IncreaseHunger(int howMuch)
+    {
+        hunger += howMuch;
+        if (hunger > maxHunger)
+        {
+            hunger = maxHunger;
+        }
+    }
+
+    protected void DecreaseHunger(int howMuch)
+    {
+        hunger -= howMuch;
+        if (hunger < minHunger)
+        {
+            hunger = minHunger;
+        }
+    }
+
+    protected void IncreaseHappiness(int howMuch)
+    {
+        happiness += howMuch;
+        if (happiness > maxHappiness)
+        {
+            happiness = maxHappiness;
+        }
+    }
+
+    protected void DecreaseHappiness(int howMuch)
+    {
+        happiness -= howMuch;
+        if (happiness < minHappiness)
+        {
+            happiness = minHappiness;
+        }
     }
 }

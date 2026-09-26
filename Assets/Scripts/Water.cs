@@ -18,6 +18,9 @@ public class Water : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (inside.Contains(null) )
+        {
+            inside.Remove(null);
+        }
     }
 }
