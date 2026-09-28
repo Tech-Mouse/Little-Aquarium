@@ -24,6 +24,7 @@ public class Fish : MonoBehaviour
     [SerializeField] protected int health = 100;
     [SerializeField] protected int hunger = 50;
     [SerializeField] protected int happiness = 50;
+    [SerializeField] protected int happinessDeltaPerSec = 2;
 
     [SerializeField] protected float maxY = 3;
     [SerializeField] protected float speed = 1;
@@ -32,6 +33,7 @@ public class Fish : MonoBehaviour
     [SerializeField] protected float foodSenseRadius = 5f;
 
     private bool isDead = false;
+    private bool stopSwim = false;
 
     public bool IsDead { get => isDead; set => isDead = value; }
 
@@ -47,6 +49,7 @@ public class Fish : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if (health <= minHealth)
         {
             Die();
@@ -141,7 +144,7 @@ public class Fish : MonoBehaviour
 
             while (t < swimTime)
             {
-                if (IsDead)
+                if (IsDead || stopSwim)
                 {
                     StopCoroutine(Swim());
                     yield break;
@@ -274,5 +277,21 @@ public class Fish : MonoBehaviour
         {
             happiness = minHappiness;
         }
+    }
+
+    public void Pet()
+    {
+        IncreaseHappiness(happinessDeltaPerSec);
+    }
+
+    public void StopSwimming()
+    {
+        stopSwim = true;
+    }
+
+    public void StartSwimming()
+    {
+        stopSwim = false;
+        StartCoroutine(Swim());
     }
 }

@@ -4,13 +4,14 @@ using Riten.Native.Cursors;
 
 public class MouseManager : MonoBehaviour
 {
-    [SerializeField] private Vector2 cursorHotspot = Vector2.zero;
     private Camera cam;
-    [SerializeField] private LayerMask mask;
+    [SerializeField] private LayerMask fishMask;
 
     private int currentCursorID;
+    private Fish pettingTarget = null;
+    private float petTimer = 0f;
 
-    protected void Awake() => cam = Camera.main;
+    void Awake() => cam = Camera.main;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -21,22 +22,63 @@ public class MouseManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        var hovered = RaycastFish();
+        Fish hovered = RaycastFish();
 
-        // --- hover feedback ---
-        if (hovered != null && CursorStack.Peek().id != currentCursorID)
+        bool isLMBPressed = Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame;
+        bool isLMBHeld = Mouse.current != null && Mouse.current.leftButton.isPressed;
+
+        // --- hover on dead fish ---
+        if (hovered != null && hovered.IsDead && CursorStack.Peek().id != currentCursorID)
         {
             currentCursorID = CursorStack.Push(NTCursors.Link);
+        }
+        // --- hover on undead fish ---
+        else if (hovered != null && !hovered.IsDead && CursorStack.Peek().id != currentCursorID)
+        {
+            currentCursorID = CursorStack.Push(NTCursors.OpenHand);
         }
         else if (hovered == null)
         {
             CursorStack.Pop(currentCursorID);   // restore default
         }
 
-        // --- click to remove ---
-        if (hovered != null
-            && Mouse.current != null
-            && Mouse.current.leftButton.wasPressedThisFrame)
+        // --- pet the fish ---
+        if (hovered != null && !hovered.IsDead && isLMBHeld)
+        {
+
+            if (pettingTarget == null)
+            {
+                pettingTarget = hovered;
+                pettingTarget.StopSwimming();
+            }
+        }
+
+        if (pettingTarget != null)
+        {
+            bool stillValid = isLMBHeld && hovered == pettingTarget && !pettingTarget.IsDead;
+
+            if (stillValid)
+            {
+                petTimer += Time.deltaTime;
+
+                if (petTimer >= 1f)
+                {
+                    petTimer -= 1f;
+                    hovered.Pet();
+                }
+            }
+            else
+            {
+                pettingTarget.StartSwimming();
+                pettingTarget = null;
+                petTimer = 0f;
+                CursorStack.Pop(currentCursorID);
+                
+            }
+        }
+
+        // --- click to remove dead fish ---
+        if (hovered != null && hovered.IsDead && isLMBPressed)
         {
             Destroy(hovered.gameObject);
         }
@@ -47,10 +89,10 @@ public class MouseManager : MonoBehaviour
         if (Mouse.current == null) return null;
 
         Ray ray = cam.ScreenPointToRay(Mouse.current.position.ReadValue());
-        if (Physics.Raycast(ray, out RaycastHit hit, 100f, mask))
+        if (Physics.Raycast(ray, out RaycastHit hit, 100f, fishMask))
         {
             Fish s = hit.collider.GetComponentInParent<Fish>();
-            if (s != null && s.IsDead) return s;
+            if (s != null) return s;
         }
         return null;
     }
