@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections;
-using UnityEngine.InputSystem;
 
 public class Fish : MonoBehaviour
 {
@@ -22,9 +21,11 @@ public class Fish : MonoBehaviour
 
     [SerializeField] protected string fishName;
     [SerializeField] protected int health = 100;
-    [SerializeField] protected int hunger = 50;
-    [SerializeField] protected int happiness = 50;
-    [SerializeField] protected int happinessDeltaPerSec = 2;
+    [SerializeField] protected float hunger = 50;
+    [SerializeField] protected float happiness = 50;
+    [SerializeField] protected float happinessPettingDeltaPerSec = 2f;
+    [SerializeField] protected float happinessDeltaPerSec = 0.2f;
+    [SerializeField] protected float hungerDeltaPerSec = 0.2f;
 
     [SerializeField] protected float maxY = 3;
     [SerializeField] protected float speed = 1;
@@ -32,8 +33,10 @@ public class Fish : MonoBehaviour
     [SerializeField] protected float wallCheckDistance = 1f;
     [SerializeField] protected float foodSenseRadius = 5f;
 
-    private bool isDead = false;
-    private bool stopSwim = false;
+    protected bool isDead = false;
+    protected bool stopSwim = false;
+
+    protected float hungerTimer = 0;
 
     public bool IsDead { get => isDead; set => isDead = value; }
 
@@ -60,11 +63,20 @@ public class Fish : MonoBehaviour
             LookForFood();
         }
 
-        if (hunger < minHunger)
+        hungerTimer += Time.deltaTime;
+
+        if (hungerTimer >= 1f)
         {
-            health--;
+            hungerTimer -= 1f;
+            if (hunger <= minHunger)
+            {
+                health--;
+            }
+            DecreaseHunger(hungerDeltaPerSec);
+            DecreaseHappiness(happinessDeltaPerSec);
         }
-        else if (happiness > maxHappiness / 2)
+        
+        if (happiness >= maxHappiness / 2)
         {
             //give coins!
         }
@@ -243,7 +255,7 @@ public class Fish : MonoBehaviour
         Water.inside.Remove(this.gameObject);
     }
 
-    protected void IncreaseHunger(int howMuch)
+    protected void IncreaseHunger(float howMuch)
     {
         hunger += howMuch;
         if (hunger > maxHunger)
@@ -252,7 +264,7 @@ public class Fish : MonoBehaviour
         }
     }
 
-    protected void DecreaseHunger(int howMuch)
+    protected void DecreaseHunger(float howMuch)
     {
         hunger -= howMuch;
         if (hunger < minHunger)
@@ -261,7 +273,7 @@ public class Fish : MonoBehaviour
         }
     }
 
-    protected void IncreaseHappiness(int howMuch)
+    protected void IncreaseHappiness(float howMuch)
     {
         happiness += howMuch;
         if (happiness > maxHappiness)
@@ -270,7 +282,7 @@ public class Fish : MonoBehaviour
         }
     }
 
-    protected void DecreaseHappiness(int howMuch)
+    protected void DecreaseHappiness(float howMuch)
     {
         happiness -= howMuch;
         if (happiness < minHappiness)
@@ -281,7 +293,7 @@ public class Fish : MonoBehaviour
 
     public void Pet()
     {
-        IncreaseHappiness(happinessDeltaPerSec);
+        IncreaseHappiness(happinessPettingDeltaPerSec);
     }
 
     public void StopSwimming()
