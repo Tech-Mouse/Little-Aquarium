@@ -17,6 +17,8 @@ public class Blowfish : Fish
             {
                 if (IsDead || stopSwim)
                 {
+                    rb.linearVelocity = Vector3.zero;
+                    rb.angularVelocity = Vector3.zero;
                     StopCoroutine(Swim());
                     yield break;
                 }

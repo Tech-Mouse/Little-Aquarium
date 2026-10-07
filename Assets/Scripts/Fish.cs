@@ -26,6 +26,7 @@ public class Fish : MonoBehaviour
     [SerializeField] protected float happinessPettingDeltaPerSec = 2f;
     [SerializeField] protected float happinessDeltaPerSec = 0.2f;
     [SerializeField] protected float hungerDeltaPerSec = 0.2f;
+    [SerializeField] protected int coinsPerSec = 2;
 
     [SerializeField] protected float maxY = 3;
     [SerializeField] protected float speed = 1;
@@ -78,7 +79,7 @@ public class Fish : MonoBehaviour
         
         if (happiness >= maxHappiness / 2)
         {
-            //give coins!
+            Player.AddCoins(coinsPerSec);
         }
     }
 
@@ -158,6 +159,8 @@ public class Fish : MonoBehaviour
             {
                 if (IsDead || stopSwim)
                 {
+                    rb.linearVelocity = Vector3.zero;
+                    rb.angularVelocity = Vector3.zero;
                     StopCoroutine(Swim());
                     yield break;
                 }
