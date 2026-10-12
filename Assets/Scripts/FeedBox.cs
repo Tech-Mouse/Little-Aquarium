@@ -187,8 +187,9 @@ public class FeedBox : MonoBehaviour
                 }
 
                 float xDifference = Random.Range(-1f, 1f);
+                float yDifference = Random.Range(2f, 2.5f);
 
-                feed.transform.SetPositionAndRotation(new Vector3(this.transform.position.x - xDifference, this.transform.position.y - 2, this.transform.position.z), new Quaternion());
+                feed.transform.SetPositionAndRotation(new Vector3(this.transform.position.x - xDifference, this.transform.position.y - yDifference, this.transform.position.z), new Quaternion());
                 feed.GetComponent<Feed>().IsDestroyable = true;
             }
         }

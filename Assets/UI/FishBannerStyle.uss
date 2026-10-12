@@ -1,0 +1,9 @@
+:root {
+    height: 100px;
+    width: 600px;
+    position: absolute;
+}
+
+.hover-on {
+    display: none;
+}

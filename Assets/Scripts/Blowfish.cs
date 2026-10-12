@@ -3,6 +3,12 @@ using System.Collections;
 
 public class Blowfish : Fish
 {
+    public void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+        uiHeightOffset = 3.5f;
+    }
+
     protected override IEnumerator Swim()
     {
         while (true)

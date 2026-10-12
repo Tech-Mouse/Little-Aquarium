@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="13.855703mm"
+   height="28.20652mm"
+   viewBox="0 0 13.855703 28.20652"
+   version="1.1"
+   id="svg1"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="6.3666667"
+     inkscape:cx="66.439791"
+     inkscape:cy="45.471204"
+     inkscape:window-width="1920"
+     inkscape:window-height="1001"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-9.958585,-4.8885625)">
+    <path
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.529167;stroke-linejoin:round"
+       d="M 13.090642,32.705825 C 13.29843,32.456479 12.924411,16.249019 12.924411,16.249019 11.349053,16.230098 10.845033,14.504499 10.34784,13.838678 l -0.124672,-8.5608639 0.249345,0.083115 0.748037,8.4361909 c 0.872709,1.221102 1.329843,1.20656 2.202552,0.332463 l 0.166231,-8.8933256 0.16623,-1e-7 0.748036,8.8102097 c 1.156345,1.01305 1.750894,0.45307 2.368783,-0.04156 l 0.249345,-8.8102093 0.207788,-0.041557 0.20779,8.6855363 c -0.046,1.246116 -1.585005,2.415397 -2.950588,2.451898 l 0.166233,16.415249 z"
+       id="path2"
+       sodipodi:nodetypes="ccccccccccccccccc" />
+    <path
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.529167;stroke-linejoin:round"
+       d="m 18.867146,5.4440444 -0.08312,27.3864526 1.246728,2e-6 -0.08311,-14.212697 C 21.488849,18.241548 22.93747,18.314012 23.438481,16.41525 23.352091,12.955722 24.358827,9.2913469 21.609947,6.2336405 20.69568,5.8627721 19.781413,5.2989712 18.867146,5.4440444 Z"
+       id="path3"
+       sodipodi:nodetypes="ccccccc"
+       inkscape:export-filename="hunger.svg"
+       inkscape:export-xdpi="192.18793"
+       inkscape:export-ydpi="192.18793" />
+  </g>
+</svg>

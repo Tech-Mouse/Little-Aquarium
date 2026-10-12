@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Riten.Native.Cursors;
 using System;
+using UnityEngine.UIElements;
 
 public class MouseManager : MonoBehaviour
 {
@@ -13,12 +14,35 @@ public class MouseManager : MonoBehaviour
 
     private int currentCursorID;
     private Fish pettingTarget = null;
+    private Fish lastHoveredFish = null;
     private float petTimer = 0f;
     private float feedBoxTimer = 0f;
 
     private float feedBoxClickTimer = 0f;
 
-    void Awake() => cam = Camera.main;
+    [SerializeField] private UIDocument fishBannerUiDocument;
+    private VisualElement fishBanner;
+    private Label healthLabel;
+    private Label happinessLabel;
+    private Label hungerLabel;
+
+    private VisualElement healthBar;
+    private VisualElement happinessBar;
+    private VisualElement hungerBar;
+
+
+
+    void Awake()
+    {
+        cam = Camera.main;
+        fishBanner = fishBannerUiDocument.rootVisualElement.Q<VisualElement>("Background");
+        healthLabel = fishBanner.Q<Label>("HealthLabel");
+        happinessLabel = fishBanner.Q<Label>("HappinessLabel");
+        hungerLabel = fishBanner.Q<Label>("HungerLabel");
+        healthBar = fishBanner.Q<VisualElement>("HealthBar");
+        happinessBar = fishBanner.Q<VisualElement>("HappinessBar");
+        hungerBar = fishBanner.Q<VisualElement>("HungerBar");
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -107,10 +131,19 @@ public class MouseManager : MonoBehaviour
 
         if (hoveredFish == null)
         {
+            if (lastHoveredFish != null)
+            {
+                fishBanner.style.display = DisplayStyle.None;
+                lastHoveredFish = null;
+            }
             return;
         }
         else
         {
+            fishBanner.style.display = DisplayStyle.Flex;
+            lastHoveredFish = hoveredFish;
+            FillBannerInfo(hoveredFish);
+
             // --- hover on dead fish ---
             if (hoveredFish != null && hoveredFish.IsDead && CursorStack.Peek().cursor != NTCursors.Link)
             {
@@ -189,5 +222,34 @@ public class MouseManager : MonoBehaviour
             if (s != null) return s;
         }
         return null;
+    }
+
+
+
+    private void FillBannerInfo(Fish fish)
+    {
+        hungerLabel.text = fish.Hunger.ToString(".0#");
+        healthLabel.text = fish.Health.ToString();
+        happinessLabel.text = fish.Happiness.ToString(".0#");
+        hungerBar.style.width = fish.Hunger;
+
+        Vector3 worldPos = fish.transform.position + Vector3.up * fish.UiHeightOffset;
+        Vector2 panelPos = WorldToPanel(worldPos);
+        fishBanner.style.left = panelPos.x;
+        fishBanner.style.top = panelPos.y;
+    }
+
+    private Vector2 WorldToPanel(Vector3 worldPos)
+    {
+        Vector2 screenPos = cam.WorldToScreenPoint(worldPos);
+
+        // Screen space is bottom-left origin, panel space is top-left, Y flipped
+        screenPos.y = Screen.height - screenPos.y;
+
+        // Convert physical pixels to panel coordinates (handles Scale With Screen Size)
+        var panelSettings = fishBannerUiDocument.panelSettings;
+        return new Vector2(
+            screenPos.x * (panelSettings.referenceResolution.x / (float)Screen.width) / panelSettings.scale,
+            screenPos.y * (panelSettings.referenceResolution.y / (float)Screen.height) / panelSettings.scale);
     }
 }

@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UIElements;
 
 public class Fish : MonoBehaviour
 {
@@ -34,12 +35,19 @@ public class Fish : MonoBehaviour
     [SerializeField] protected float wallCheckDistance = 1f;
     [SerializeField] protected float foodSenseRadius = 5f;
 
+    protected float uiHeightOffset = 3;
+
     protected bool isDead = false;
     protected bool stopSwim = false;
 
     protected float hungerTimer = 0;
 
     public bool IsDead { get => isDead; set => isDead = value; }
+    public float Happiness { get => happiness; }
+    public float Hunger { get => hunger; }
+    public int CoinsPerSec { get => coinsPerSec; }
+    public int Health { get => health; }
+    public float UiHeightOffset { get => uiHeightOffset; }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -53,7 +61,6 @@ public class Fish : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         if (health <= minHealth)
         {
             Die();
