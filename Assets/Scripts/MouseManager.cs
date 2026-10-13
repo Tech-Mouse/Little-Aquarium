@@ -231,7 +231,8 @@ public class MouseManager : MonoBehaviour
         hungerLabel.text = fish.Hunger.ToString(".0#");
         healthLabel.text = fish.Health.ToString();
         happinessLabel.text = fish.Happiness.ToString(".0#");
-        hungerBar.style.width = fish.Hunger;
+
+        FillBarInfo(fish);
 
         Vector3 worldPos = fish.transform.position + Vector3.up * fish.UiHeightOffset;
         Vector2 panelPos = WorldToPanel(worldPos);
@@ -251,5 +252,42 @@ public class MouseManager : MonoBehaviour
         return new Vector2(
             screenPos.x * (panelSettings.referenceResolution.x / (float)Screen.width) / panelSettings.scale,
             screenPos.y * (panelSettings.referenceResolution.y / (float)Screen.height) / panelSettings.scale);
+    }
+
+    private void FillBarInfo(Fish fish)
+    {
+        for(int i = 0; i < 3; i++)
+        {
+            VisualElement bar;
+            float value;
+            float max;
+
+            if (i == 0)
+            {
+                bar = hungerBar;
+                value = fish.Hunger;
+                max = fish.MaxHunger;
+            }
+            else if (i == 1)
+            {
+                bar = happinessBar;
+                value = fish.Happiness;
+                max = fish.MaxHappiness;
+            }
+            else
+            {
+                bar = healthBar;
+                value = fish.Health;
+                max = fish.MaxHealth;
+            }
+
+            float clamped = Mathf.Clamp(value, 0f, max);
+            float percent = max <= 0f ? 0f : clamped / max * 100f;
+
+            bar.style.width = new Length(percent, LengthUnit.Percent);
+            // remove flex-grow so the width isn't overridden by layout
+            bar.style.flexGrow = 0f;
+        }
+        
     }
 }

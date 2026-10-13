@@ -1,0 +1,14 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="VisualElement" style="flex-grow: 1;">
+        <ui:VisualElement name="CoinsElement" style="flex-grow: 0; align-items: center; flex-direction: row; width: auto; height: 10%; flex-shrink: 0; margin-top: 20px; margin-right: 20px; margin-bottom: 20px; margin-left: 20px;">
+            <ui:Image source="project://database/Assets/Images/coin.svg?fileID=7388822144124034973&amp;guid=076d085a404c24c42ba2e54cc4eecb84&amp;type=3#coin" style="flex-shrink: 0; justify-content: center; align-self: flex-start; align-items: flex-start; align-content: center; width: auto; height: 100%; aspect-ratio: 1;"/>
+            <ui:Label text="0" name="Coins" style="font-size: 30px; -unity-text-align: middle-left; margin-left: 10px;"/>
+        </ui:VisualElement>
+        <ui:VisualElement name="FishElement" style="flex-grow: 0; height: 10%; margin-left: 20px; margin-right: 20px; margin-bottom: 20px; flex-direction: row; flex-shrink: 0; align-items: center;">
+            <ui:Image name="FishIcon" source="project://database/Assets/Images/fish.svg?fileID=7388822144124034973&amp;guid=a77e23f024a6b2845a19798b77acfe94&amp;type=3#fish" style="flex-shrink: 0; height: 100%; aspect-ratio: 1;"/>
+            <ui:Label text="0" name="CurrentFish" style="font-size: 30px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-left: 10px;"/>
+            <ui:Label text="/" name="Slash" style="font-size: 30px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;"/>
+            <ui:Label text="0" name="MaxFish" style="font-size: 30px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;"/>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

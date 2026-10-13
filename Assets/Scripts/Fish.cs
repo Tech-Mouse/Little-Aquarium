@@ -4,6 +4,8 @@ using UnityEngine.UIElements;
 
 public class Fish : MonoBehaviour
 {
+    [SerializeField] protected bool isValid = true;
+
     protected Rigidbody rb;
     protected Animation animation;
     [SerializeField] protected GameObject target;
@@ -44,14 +46,21 @@ public class Fish : MonoBehaviour
 
     public bool IsDead { get => isDead; set => isDead = value; }
     public float Happiness { get => happiness; }
+    public float MaxHappiness { get => maxHappiness; }
     public float Hunger { get => hunger; }
+    public float MaxHunger { get => maxHunger; }
     public int CoinsPerSec { get => coinsPerSec; }
     public int Health { get => health; }
+    public int MaxHealth { get => maxHealth;  }
     public float UiHeightOffset { get => uiHeightOffset; }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        if (! isValid)
+        {
+            return;
+        }
         animation = gameObject.GetComponent<Animation>();
         animation["Idle"].blendMode = AnimationBlendMode.Blend;
         animation["Swim"].blendMode = AnimationBlendMode.Blend;
@@ -61,6 +70,11 @@ public class Fish : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (! isValid)
+        {
+            return;
+        }
+
         if (health <= minHealth)
         {
             Die();
@@ -82,12 +96,14 @@ public class Fish : MonoBehaviour
             }
             DecreaseHunger(hungerDeltaPerSec);
             DecreaseHappiness(happinessDeltaPerSec);
+
+            if (happiness >= maxHappiness / 2)
+            {
+                Player.AddCoins(coinsPerSec);
+            }
         }
         
-        if (happiness >= maxHappiness / 2)
-        {
-            Player.AddCoins(coinsPerSec);
-        }
+        
     }
 
     protected void LookForFood()
@@ -110,6 +126,10 @@ public class Fish : MonoBehaviour
 
     void Awake()
     {
+        if (! isValid)
+        {
+            return;
+        }
         rb = GetComponent<Rigidbody>();
     }
 
