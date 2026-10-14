@@ -52,6 +52,7 @@ public class Fish : MonoBehaviour
     public int CoinsPerSec { get => coinsPerSec; }
     public int Health { get => health; }
     public int MaxHealth { get => maxHealth;  }
+    public bool IsValid { get => isValid; set => isValid = value; }
     public float UiHeightOffset { get => uiHeightOffset; }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -126,10 +127,6 @@ public class Fish : MonoBehaviour
 
     void Awake()
     {
-        if (! isValid)
-        {
-            return;
-        }
         rb = GetComponent<Rigidbody>();
     }
 

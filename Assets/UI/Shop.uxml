@@ -1,0 +1,18 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="VisualElement" style="flex-grow: 1; flex-direction: row; transition-timing-function: ease-in-out; transition-duration: 1s; width: 100%; height: 100%; position: absolute; top: 0; left: 0;">
+        <ui:VisualElement name="HandleElem" style="flex-grow: 0; flex-shrink: 0; width: 50%; height: 100%; align-items: flex-end; justify-content: center;">
+            <ui:Button text="Shop" name="Handle" style="width: auto; height: auto; rotate: 270deg; font-size: 40px; border-top-left-radius: 10px; border-bottom-left-radius: 0; border-top-right-radius: 10px; border-left-color: rgb(226, 180, 104); border-right-color: rgb(226, 180, 104); border-top-color: rgb(226, 180, 104); border-bottom-color: rgb(226, 180, 104); background-color: rgb(230, 194, 140); margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 5px; padding-right: 5px; padding-bottom: 5px; padding-left: 5px; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; cursor: url(&quot;project://database/Assets/NativeCursor/Cursors/Windows/aero_link.cur?fileID=6778831284786772486&amp;guid=7782c1ba61d9b05428bee43be845a54d&amp;type=3#cursor_1_texture&quot;); min-width: 10%; min-height: 10%;"/>
+        </ui:VisualElement>
+        <ui:VisualElement name="ShopElem" style="flex-grow: 0; flex-shrink: 0; width: 50%; height: 100%;">
+            <ui:VisualElement name="ShopBackground" style="flex-grow: 1; background-color: rgb(224, 197, 152); border-top-left-radius: 10px; border-bottom-left-radius: 10px;">
+                <ui:VisualElement name="ShopWrapper" style="flex-grow: 1; padding-top: 20px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px;">
+                    <ui:VisualElement name="ShopHeaders" style="flex-grow: 0; flex-direction: row; height: 5%; width: 100%; flex-shrink: 0; justify-content: space-evenly; margin-bottom: 20px;">
+                        <ui:Label text="Item" name="ItemLabel" style="font-size: 30px;"/>
+                        <ui:Label text="Cost" name="CostLabel" style="font-size: 30px;"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="ShopList" style="flex-grow: 1;"/>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

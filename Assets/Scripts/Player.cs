@@ -27,6 +27,7 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        UpdateNumOfFish();
         coinlabel.text = coins.ToString();
         numOfFishLabel.text = numOfFish.ToString();
         maxNumOfFishLabel.text = maxNumOfFish.ToString();
@@ -60,5 +61,21 @@ public class Player : MonoBehaviour
         }
         return false;
         
+    }
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ResetStatics()
+    {
+        coins = 5;
+    }
+
+    private static void UpdateNumOfFish()
+    {
+        numOfFish = Water.inside.FindAll(obj => obj.layer == 7).Count;
+    }
+
+    public static bool CanBuyFish()
+    {
+        return numOfFish < maxNumOfFish;
     }
 }

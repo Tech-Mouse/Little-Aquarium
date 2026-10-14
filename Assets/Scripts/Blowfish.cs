@@ -5,10 +5,6 @@ public class Blowfish : Fish
 {
     public void Awake()
     {
-        if (! isValid)
-        {
-            return;
-        }
         rb = GetComponent<Rigidbody>();
         uiHeightOffset = 3.5f;
     }

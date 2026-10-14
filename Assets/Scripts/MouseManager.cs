@@ -53,6 +53,10 @@ public class MouseManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Shop.IsOpen)
+        {
+            return;
+        }
         Fish hoveredFish = RaycastFish();
         FeedBox hoveredFeedBox = null;
 
