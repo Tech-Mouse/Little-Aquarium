@@ -16,6 +16,10 @@ public class Shop : MonoBehaviour
 
     [SerializeField] private List<ShopItem> items = new List<ShopItem>();
 
+    [SerializeField] private AudioSource sfxSource;
+    [SerializeField] private AudioClip buySound;
+    [SerializeField] private AudioClip openSound;
+
     public static bool IsOpen { get => isOpen; } 
 
 
@@ -91,6 +95,10 @@ public class Shop : MonoBehaviour
 
     private void ToggleShop()
     {
+        sfxSource.Stop();
+        sfxSource.clip = openSound;
+        sfxSource.Play();
+
         isOpen = !isOpen;
         // Open: X = 0. Closed: X = 90% of parent width (top-right corner minus ~10%)
         shopElem.style.left = isOpen
@@ -118,6 +126,10 @@ public class Shop : MonoBehaviour
                 Random.Range(defaultSpawnPosition.x -1, defaultSpawnPosition.x +1), 
                 Random.Range(defaultSpawnPosition.y -1, defaultSpawnPosition.y +1), 
                 Random.Range(defaultSpawnPosition.z -1, defaultSpawnPosition.z +1));
+
+            sfxSource.Stop();
+            sfxSource.clip = buySound;
+            sfxSource.Play();
 
             GameObject obj = Instantiate(item.prefab, spawnPos, Quaternion.identity);
             if (item.itemName.StartsWith("Blowfish"))

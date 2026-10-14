@@ -29,6 +29,9 @@ public class FeedBox : MonoBehaviour
 
     private float targetFeedY;
 
+    [SerializeField] private AudioSource sfxSource;
+    [SerializeField] private AudioClip shakeSound;
+
     public bool IsTargetable { get => isTargetable; set => isTargetable = value; }
     public bool IsHeld { get => isHeld; set => isHeld = value; }
     public bool CanBeClicked { get => canBeClicked; set => canBeClicked = value; }
@@ -130,6 +133,11 @@ public class FeedBox : MonoBehaviour
         StopCoroutineIfRunning();
         rotationAnimation = StartCoroutine(RotateTo(clickRotation));
         StartDip();
+
+        sfxSource.Stop();
+        sfxSource.clip = shakeSound;
+        sfxSource.Play();
+
         Invoke(nameof(DropFeed), 0.2f);
     }
 

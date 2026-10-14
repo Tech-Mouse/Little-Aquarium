@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 using UnityEngine.UIElements;
 
 public class Player : MonoBehaviour
@@ -14,8 +15,19 @@ public class Player : MonoBehaviour
     private static int numOfFish = 0;
     private static int maxNumOfFish = 10;
 
+    [SerializeField] private AudioClip[] musicTracks;
+    [SerializeField] private AudioSource audioSource;
+
+    private int currentTrack = 0;
+    private bool musicRunning = false;
+
     public static int MaxNumOfFish {get => maxNumOfFish; }
     public static int Coins { get => coins; }
+
+    private void Start()
+    {
+        StartMusicPlaylist();
+    }
 
     private void Awake()
     {
@@ -77,5 +89,28 @@ public class Player : MonoBehaviour
     public static bool CanBuyFish()
     {
         return numOfFish < maxNumOfFish;
+    }
+
+
+    private void StartMusicPlaylist()
+    {
+        if (musicRunning) return;
+        musicRunning = true;
+        StartCoroutine(PlayMusicRoutine());
+    }
+
+    private IEnumerator PlayMusicRoutine()
+    {
+        while (true)
+        {
+            AudioClip clip = musicTracks[currentTrack];
+            currentTrack = (currentTrack + 1) % musicTracks.Length; // wraps around
+
+            audioSource.clip = clip;
+            audioSource.Play();
+
+            // Wait for the track to finish, then the extra gap
+            yield return new WaitForSeconds(clip.length + Random.Range(10f, 30f));
+        }
     }
 }
