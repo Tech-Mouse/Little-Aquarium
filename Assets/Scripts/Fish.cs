@@ -95,6 +95,13 @@ public class Fish : MonoBehaviour
             {
                 health--;
             }
+            if (hunger >= maxHunger / 2)
+            {
+                if (health < maxHealth)
+                {
+                    health++;
+                }
+            }
             DecreaseHunger(hungerDeltaPerSec);
             DecreaseHappiness(happinessDeltaPerSec);
 
