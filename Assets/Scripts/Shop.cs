@@ -79,6 +79,10 @@ public class Shop : MonoBehaviour
             var buyButton = new Button(() => TryBuy(item)) { text = "Buy" };
             buyButton.style.fontSize = 25;
             buyButton.style.backgroundColor = Color.cornsilk;
+            buyButton.style.borderBottomLeftRadius = 10;
+            buyButton.style.borderBottomRightRadius = 10;
+            buyButton.style.borderTopLeftRadius = 10;
+            buyButton.style.borderTopRightRadius = 10;
 
             row.Add(label);
             row.Add(labelCost);
