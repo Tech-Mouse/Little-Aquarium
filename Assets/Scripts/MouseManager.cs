@@ -74,7 +74,7 @@ public class MouseManager : MonoBehaviour
         if ((hoveredFeedBox == null && lastHeldBox == null) && hoveredFish == null)
         {
             feedBoxTimer = 0f;
-            CursorStack.Pop(currentCursorID);
+            //CursorStack.Pop(currentCursorID);
         }
         
     }
@@ -96,10 +96,10 @@ public class MouseManager : MonoBehaviour
         }
         else
         {
-            if (hoveredFeedBox != null && CursorStack.Peek().cursor != NTCursors.OpenHand)
-            {
-                currentCursorID = CursorStack.Push(NTCursors.OpenHand);
-            }
+            //if (hoveredFeedBox != null && CursorStack.Peek().cursor != NTCursors.OpenHand)
+            //{
+                //currentCursorID = CursorStack.Push(NTCursors.OpenHand);
+            //}
             if (hoveredFeedBox != null && lastHeldBox != null && isLMBPressed && hoveredFeedBox.CanBeClicked)
             {
                 if (! hoveredFeedBox.IsClicked)
@@ -149,15 +149,15 @@ public class MouseManager : MonoBehaviour
             FillBannerInfo(hoveredFish);
 
             // --- hover on dead fish ---
-            if (hoveredFish != null && hoveredFish.IsDead && CursorStack.Peek().cursor != NTCursors.Link)
-            {
-                currentCursorID = CursorStack.Push(NTCursors.Link);
-            }
+            //if (hoveredFish != null && hoveredFish.IsDead && CursorStack.Peek().cursor != NTCursors.Link)
+            //{
+                //currentCursorID = CursorStack.Push(NTCursors.Link);
+            //}
             // --- hover on undead fish ---
-            else if (hoveredFish != null && !hoveredFish.IsDead && CursorStack.Peek().cursor != NTCursors.OpenHand)
-            {
-                currentCursorID = CursorStack.Push(NTCursors.OpenHand);
-            }
+            //else if (hoveredFish != null && !hoveredFish.IsDead && CursorStack.Peek().cursor != NTCursors.OpenHand)
+            //{
+                //currentCursorID = CursorStack.Push(NTCursors.OpenHand);
+            //}
         }
 
         // --- pet the fish ---
@@ -190,7 +190,7 @@ public class MouseManager : MonoBehaviour
                 pettingTarget.StartSwimming();
                 pettingTarget = null;
                 petTimer = 0f;
-                CursorStack.Pop(currentCursorID);
+                //CursorStack.Pop(currentCursorID);
 
             }
         }
